@@ -4,7 +4,7 @@ lua54 'yes'
 game 'gta5'
 
 name 'enty_AmmoRecoil'
-version '1.0.0'
+version '1.0.1'
 license 'MIT'
 author 'entytaiment25'
 repository 'https://github.com/Entytaiment25/enty_AmmoRecoil/'
