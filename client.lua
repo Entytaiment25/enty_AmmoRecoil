@@ -1,23 +1,27 @@
-local CreateThread = CreateThread
-local Wait = Wait
-local PlayerPedId = PlayerPedId
+local SetWeaponRecoilShakeAmplitude = SetWeaponRecoilShakeAmplitude
 local GetSelectedPedWeapon = GetSelectedPedWeapon
 local SetPedInfiniteAmmo = SetPedInfiniteAmmo
-local SetWeaponRecoilShakeAmplitude = SetWeaponRecoilShakeAmplitude
+local CreateThread = CreateThread
+local PlayerPedId = PlayerPedId
+local playerPed = PlayerPedId()
 local boolean = true
+local Wait = Wait
 
 CreateThread(function()
     while boolean do
         Wait(100)
-        local playerPed = PlayerPedId()
         local weaponHash = GetSelectedPedWeapon(playerPed)
-        if weaponHash ~= `WEAPON_UNARMED` and weaponHash ~= 0 then
-            if Config.UnlimitedAmmo then
-                SetPedInfiniteAmmo(playerPed, true, weaponHash)
+        if weaponHash == `WEAPON_UNARMED` or weaponHash == 0 then return end
+        if Config.UnlimitedAmmo and Config.OnlyAllowedWeapons then
+            for i = 1, #Config.AllowedWeapons do
+                SetPedInfiniteAmmo(playerPed, true, Config.AllowedWeapons[i])
             end
-            if Config.NoRecoil then
-                SetWeaponRecoilShakeAmplitude(GetSelectedPedWeapon(playerPed), 0.0)
-            end
+        end
+        if Config.NoRecoil then
+            SetWeaponRecoilShakeAmplitude(weaponHash, 0.0)
+        end
+        if Config.NoSpread then
+            SetPedAccuracy(playerPed, 100)
         end
     end
 end)
