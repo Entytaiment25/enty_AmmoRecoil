@@ -3,13 +3,13 @@ local GetSelectedPedWeapon = GetSelectedPedWeapon
 local SetPedInfiniteAmmo = SetPedInfiniteAmmo
 local CreateThread = CreateThread
 local PlayerPedId = PlayerPedId
-local playerPed = PlayerPedId()
 local boolean = true
 local Wait = Wait
 
 CreateThread(function()
     while boolean do
         Wait(100)
+        local playerPed = PlayerPedId()
         local weaponHash = GetSelectedPedWeapon(playerPed)
         if weaponHash == `WEAPON_UNARMED` or weaponHash == 0 then return end
         if Config.UnlimitedAmmo and Config.OnlyAllowedWeapons then
